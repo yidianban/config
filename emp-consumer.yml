@@ -1,0 +1,64 @@
+spring:
+  profiles:
+    active: dev
+---
+server:
+  port: 8091 #端口
+
+spring:
+   profile: dev
+   application:
+     name: emp-consumer-8091    
+eureka:
+   client: #客户端注册进eureka服务列表内
+      service-url:
+         defaultZone: http://127.0.0.1:8092/eureka/
+   instance:
+      instance-id: ${spring.cloud.client.ipAddress}:${spring.application.name}:${spring.application.instance_id:${server.port}}
+      prefer-ip-address: true    
+
+#info页面展现配置      
+info:
+ app:
+  name: emp-consumer-8091
+ company:
+  name: www.sxt.cn
+ build:
+  artifactId: $project.artifactId$
+  version: project.version$
+ 
+#开启Feign对Hystrix的支持
+feign:
+  hystrix:
+    enabled: true
+---
+
+server:
+  port: 8091
+  
+spring:
+  profile: test
+  application: 
+    name: emp-consumer-8091
+    
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8092/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ipAddress}:${spring.application.name}:${spring.application.instance_id:${server.port}}      
+    prefer-ip-address: true  
+ #info页面展现配置      
+info:
+ app:
+  name: emp-consumer-8091
+ company:
+  name: www.sxt.cn
+ build:
+  artifactId: $project.artifactId$
+  version: project.version$
+    
+#开启Feign对Hystrix的支持  
+feign:
+  hystrix:
+    enabled: true
